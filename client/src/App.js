@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import NavBar from "./components/NavBar";
 import Product from "./components/Products/Product";
+import Products from "./components/Products/Products";
 import theme from "./styles/styles";
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <div>
         <NavBar />
-        <Product />
+        <Products/>
+        {/* <Product /> */}
       </div>
     </ThemeProvider>
   );
