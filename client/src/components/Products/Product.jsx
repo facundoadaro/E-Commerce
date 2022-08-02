@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -10,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { actionTypes } from "../../reducer/index";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -23,12 +25,29 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Product({
-  product: { name, productType, image, price, rating, description },
+  product: { id, name, productType, image, price, rating, description },
 }) {
+  const dispatch = useDispatch();
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const addToBasket = () => {
+    dispatch({
+      type: actionTypes.ADD_TO_BASKET,
+      payload: {
+        id,
+        name,
+        productType,
+        image,
+        price,
+        rating,
+        description,
+      },
+    });
   };
 
   return (
@@ -53,7 +72,7 @@ export default function Product({
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to basket" onClick={addToBasket}>
           <AddShoppingCartIcon fontSize="large" />
         </IconButton>
         {Array(rating)
