@@ -12,7 +12,6 @@ import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
 import { Link } from "react-router-dom";
 
 export default function NavBar() {
-
   const basket = useSelector((state) => state.basket);
 
   return (
@@ -49,19 +48,32 @@ export default function NavBar() {
               flexDirection: "row",
             }}
           >
-            <Typography variant="h6" component="div" sx={{ margin: "8px" }}>
+            <Typography variant="h6" component="div" sx={{ margin: "10px" }}>
               Hello Guest!
             </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={{ maxHeight: "3rem", color: "white", marginLeft: '35px', marginRight: '20px' }}
-            >
-              Login
-            </Button>
-            <Link to='/checkout'>
+            <Link to="/sign-in" >
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  sx={{
+                    maxHeight: "3rem",
+                    height: '6vh',
+                    color: "white",
+                    marginLeft: "35px",
+                    marginRight: "20px",
+                    marginTop: "5px"
+                  }}
+                >
+                  Login
+                </Button>
+            </Link>
+            <Link to="/checkout">
               <IconButton>
-                <Badge badgeContent={basket?.length} fontSize="large" color="shopCart">
+                <Badge
+                  badgeContent={basket?.length}
+                  fontSize="large"
+                  color="shopCart"
+                >
                   <ShoppingCartTwoToneIcon
                     aria-label="Show cart items"
                     fontSize="large"
