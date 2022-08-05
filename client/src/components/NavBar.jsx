@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,10 +9,35 @@ import IconButton from "@mui/material/IconButton";
 import logo from "../media/ecommercelogo.jpg";
 import { Badge, CardMedia } from "@mui/material";
 import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import firebaseApp from "../firebase";
+import { getAuth, signOut } from "firebase/auth";
+import { actionTypes } from "../reducer";
 
 export default function NavBar() {
   const basket = useSelector((state) => state.basket);
+  const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+ 
+
+  const auth = getAuth(firebaseApp);
+
+  const handleSignOut = () => {
+    if(user){ 
+      signOut(auth);
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        payload: [],
+      })
+      dispatch({
+        type: actionTypes.SET_USER,
+        payload: null,
+      })
+    }
+    // history.push("/")
+  }
 
   return (
     <Box sx={{ flexGrow: 1, marginBottom: "6rem" }}>
@@ -49,23 +74,24 @@ export default function NavBar() {
             }}
           >
             <Typography variant="h6" component="div" sx={{ margin: "10px" }}>
-              Hello Guest!
+              Hello {user ? user.email : "Guest"}!
             </Typography>
-            <Link to="/sign-in" >
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  sx={{
-                    maxHeight: "3rem",
-                    height: '6vh',
-                    color: "white",
-                    marginLeft: "35px",
-                    marginRight: "20px",
-                    marginTop: "5px"
-                  }}
-                >
-                  Login
-                </Button>
+            <Link to="/sign-in">
+              <Button
+                onClick={handleSignOut}
+                variant="contained"
+                color="secondary"
+                sx={{
+                  maxHeight: "3rem",
+                  height: "6vh",
+                  color: "white",
+                  marginLeft: "35px",
+                  marginRight: "20px",
+                  marginTop: "5px",
+                }}
+              >
+                {user ? "Sign Out" : "Login"}
+              </Button>
             </Link>
             <Link to="/checkout">
               <IconButton>
