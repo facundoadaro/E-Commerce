@@ -5,10 +5,9 @@ import { useSelector } from "react-redux";
 import { Button, Typography } from "@mui/material";
 import CheckoutProduct from "./CheckoutProduct";
 import { getBasketTotal } from "../../actions";
-
+import { Link } from "react-router-dom";
 
 export default function CheckoutPage() {
-
   const basket = useSelector((state) => state.basket);
 
   return (
@@ -50,11 +49,18 @@ export default function CheckoutPage() {
           marginTop: "12vh",
         }}
       >
-        <Box container sx={{display: 'flex', flexDirection: 'column'}}>
-          <Typography variant="h4">{`Total: $${getBasketTotal(basket)}`}</Typography>
-          <Button variant="contained" color="secondary" sx={{ color: "white", maxWidth: '13vw', marginTop:'2.5vh' }}>
-            Checkout
-          </Button>
+        <Box container sx={{ display: "flex", flexDirection: "column" }}>
+          <Typography variant="h4">{`Total: $${getBasketTotal(
+            basket
+          )}`}</Typography>
+            <Button
+              component={Link} to="/payment"
+              variant="contained"
+              color="secondary"
+              sx={{ color: "white", maxWidth: "13vw", marginTop: "2.5vh" }}
+            >
+              Checkout
+            </Button>
         </Box>
       </Grid>
     </Box>

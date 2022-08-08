@@ -11,6 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { actionTypes } from "./reducer";
+import Checkout from "./components/Checkout/Checkout";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
           <Route path="/checkout" component={CheckoutPage} />
           <Route path="/sign-in" component={SignIn} />
           <Route path="/sign-up" component={SignUp} />
+          <Route path="/payment" component={Checkout} />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import logo from "../media/ecommercelogo.jpg";
 import { Badge, CardMedia } from "@mui/material";
 import ShoppingCartTwoToneIcon from "@mui/icons-material/ShoppingCartTwoTone";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import firebaseApp from "../firebase";
 import { getAuth, signOut } from "firebase/auth";
 import { actionTypes } from "../reducer";
@@ -19,7 +19,6 @@ export default function NavBar() {
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const auth = getAuth(firebaseApp);
 
@@ -74,9 +73,8 @@ export default function NavBar() {
             <Typography variant="h6" component="div" sx={{ margin: "10px" }}>
               Hello {user ? user.email : "Guest"}!
             </Typography>
-
-            <Link to={user ? "/" : "/sign-in"}>
               <Button
+                component={Link} to={user ? "/" : "/sign-in"}
                 onClick={handleSignOut}
                 variant="contained"
                 color="secondary"
@@ -91,7 +89,6 @@ export default function NavBar() {
               >
                 {user ? "Log Out" : "Login"}
               </Button>
-            </Link>
             <Link to="/checkout">
               <IconButton>
                 <Badge
