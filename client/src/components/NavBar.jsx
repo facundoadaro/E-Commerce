@@ -20,24 +20,22 @@ export default function NavBar() {
 
   const dispatch = useDispatch();
   const history = useHistory();
- 
 
   const auth = getAuth(firebaseApp);
 
   const handleSignOut = () => {
-    if(user){ 
+    if (user) {
       signOut(auth);
       dispatch({
         type: actionTypes.EMPTY_BASKET,
         payload: [],
-      })
+      });
       dispatch({
         type: actionTypes.SET_USER,
         payload: null,
-      })
+      });
     }
-    // history.push("/")
-  }
+  };
 
   return (
     <Box sx={{ flexGrow: 1, marginBottom: "6rem" }}>
@@ -76,7 +74,8 @@ export default function NavBar() {
             <Typography variant="h6" component="div" sx={{ margin: "10px" }}>
               Hello {user ? user.email : "Guest"}!
             </Typography>
-            <Link to="/sign-in">
+
+            <Link to={user ? "/" : "/sign-in"}>
               <Button
                 onClick={handleSignOut}
                 variant="contained"
@@ -90,7 +89,7 @@ export default function NavBar() {
                   marginTop: "5px",
                 }}
               >
-                {user ? "Sign Out" : "Login"}
+                {user ? "Log Out" : "Login"}
               </Button>
             </Link>
             <Link to="/checkout">
