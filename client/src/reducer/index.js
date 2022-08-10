@@ -1,13 +1,15 @@
 const initialState = {
   basket: [],
   user: null,
+  shippingData: {},
 };
 
 export const actionTypes = {
   ADD_TO_BASKET: "ADD_TO_BASKET",
   REMOVE_ITEM: "REMOVE_ITEM",
   SET_USER: "SET_USER",
-  EMPTY_BASKET: "EMPTY_BASKET"
+  EMPTY_BASKET: "EMPTY_BASKET",
+  SET_SHIPPINGDATA: "SET_SHIPPINGDATA",
 };
 
 export default function reducer(state = initialState, action) {
@@ -35,11 +37,17 @@ export default function reducer(state = initialState, action) {
         user: action.payload,
       };
 
-      case "EMPTY_BASKET":
-        return {
-          ...state,
-          basket: action.payload,
-        };
+    case "EMPTY_BASKET":
+      return {
+        ...state,
+        basket: action.payload,
+      };
+
+    case "SET_SHIPPINGDATA":
+      return {
+        ...state,
+        shippingData: action.payload,
+      };
 
     default:
       return state;

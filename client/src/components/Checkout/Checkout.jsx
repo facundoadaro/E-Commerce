@@ -12,7 +12,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Review from "../Checkout/PaymentForm/Review";
 import InfoForm from "./InfoForm/InfoForm";
 import CheckoutForm from "./PaymentForm/CheckoutForm";
-import { Link } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -26,22 +25,23 @@ function Copyright() {
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <InfoForm />;
-    case 1:
-      return <CheckoutForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 const theme = createTheme();
 
 export default function Checkout() {
+
+  function getStepContent(step, handleNext, handleBack) {
+    switch (step) {
+      case 0:
+        return <InfoForm handleNext={handleNext}  />;
+      case 1:
+        return <CheckoutForm />;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error("Unknown step");
+    }
+  }
+
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -84,8 +84,8 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                {getStepContent(activeStep, handleNext, handleBack)}
+                {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                       Back
@@ -104,7 +104,7 @@ export default function Checkout() {
                   >
                     {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>
-                </Box>
+                </Box> */}
               </React.Fragment>
             )}
           </React.Fragment>
