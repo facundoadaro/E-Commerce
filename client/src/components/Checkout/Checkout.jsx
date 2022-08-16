@@ -23,20 +23,19 @@ function Copyright() {
   );
 }
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps = ["Shipping address", "Review your order", "Payment details"];
 
 const theme = createTheme();
 
 export default function Checkout() {
-
   function getStepContent(step, handleNext, handleBack) {
     switch (step) {
       case 0:
-        return <InfoForm handleNext={handleNext}  />;
+        return <InfoForm handleNext={handleNext} />;
       case 1:
-        return <CheckoutForm />;
+        return <Review handleNext={handleNext} handleBack={handleBack} />;
       case 2:
-        return <Review />;
+        return <CheckoutForm handleNext={handleNext} handleBack={handleBack} />;
       default:
         throw new Error("Unknown step");
     }
