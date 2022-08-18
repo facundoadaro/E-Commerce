@@ -1,17 +1,14 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Review from "../Checkout/PaymentForm/Review";
 import InfoForm from "./InfoForm/InfoForm";
-import CheckoutForm from "./PaymentForm/CheckoutForm";
 
 function Copyright() {
   return (
@@ -23,7 +20,7 @@ function Copyright() {
   );
 }
 
-const steps = ["Shipping address", "Review your order", "Payment details"];
+const steps = ["Shipping address", "Review your order"];
 
 const theme = createTheme();
 
@@ -33,9 +30,7 @@ export default function Checkout() {
       case 0:
         return <InfoForm handleNext={handleNext} />;
       case 1:
-        return <Review handleNext={handleNext} handleBack={handleBack} />;
-      case 2:
-        return <CheckoutForm handleNext={handleNext} handleBack={handleBack} />;
+        return <Review handleBack={handleBack} />;
       default:
         throw new Error("Unknown step");
     }
@@ -70,42 +65,7 @@ export default function Checkout() {
             ))}
           </Stepper>
           <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep, handleNext, handleBack)}
-                {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                      Back
-                    </Button>
-                  )}
-                  {activeStep === 0 && (
-                    <Button component={Link} to='/checkout' sx={{ mt: 3, ml: 1 }}>
-                      Back
-                    </Button>
-                  )}
-
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{ mt: 3, ml: 1 }}
-                  >
-                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
-                  </Button>
-                </Box> */}
-              </React.Fragment>
-            )}
+            {getStepContent(activeStep, handleNext, handleBack)}
           </React.Fragment>
         </Paper>
         <Copyright />

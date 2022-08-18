@@ -3,13 +3,26 @@ import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux";
-import { getBasketTotal } from "../../../actions";
-import { Divider } from "@mui/material";
+import { getBasketTotal, postPurchase } from "../../../actions";
+import { Box, Button, Divider } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { actionTypes } from "../../../reducer/index";
+import { useHistory } from "react-router-dom";
 
-export default function Review() {
+export default function Review({ handleBack }) {
   const basket = useSelector((state) => state.basket);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  function handlePayment() {
+    let paymentLink = postPurchase(getBasketTotal());
+    dispatch({
+      type: actionTypes.EMPTY_BASKET,
+      payload: [],
+    });
+    history.push(paymentLink); // ver como hacer para que redirija al link de mp
+  }
 
   return (
     <React.Fragment>
@@ -20,43 +33,33 @@ export default function Review() {
         {basket?.map((product, index) => (
           <ListItem key={index} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={product.name} />
-            <Typography variant="body1"><strong>${product.price}</strong></Typography>
+            <Typography variant="body1">
+              <strong>${product.price}</strong>
+            </Typography>
           </ListItem>
         ))}
-        <Divider/>
+        <Divider />
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary={<strong>Total</strong>}/>
+          <ListItemText primary={<strong>Total</strong>} />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-          {`$${getBasketTotal(basket)}`}
+            {`$${getBasketTotal(basket)}`}
           </Typography>
         </ListItem>
       </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          {/* <Typography gutterBottom>{addresses?.join(', ')}</Typography> */}
-        </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Payment details
-          </Typography>
-          <Grid container>
-            {/* {payments?.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))} */}
-          </Grid>
-        </Grid>
-      </Grid>
+
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button onClick={() => handleBack()} sx={{ mt: 3, ml: 1 }}>
+          Back
+        </Button>
+
+        <Button
+          sx={{ mt: 3, ml: 1 }}
+          variant="contained"
+          onClick={() => handlePayment()}
+        >
+          Pay
+        </Button>
+      </Box>
     </React.Fragment>
   );
 }
