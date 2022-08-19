@@ -14,12 +14,15 @@ router.get("/hola", function (req, res) {
 });
 
 router.post("/checkout", function (req, res) {
+
+    const { unit_price } = req.body;
+
   // Crea un objeto de preferencia
   let preference = {
     items: [
       {
-        title: "Carro de compras E-Commerce",
-        unit_price: 100,
+        title: "E-Commerce Shopping Cart",
+        unit_price: unit_price,
         quantity: 1,
       },
     ],

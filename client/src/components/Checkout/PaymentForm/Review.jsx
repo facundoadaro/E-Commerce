@@ -8,20 +8,20 @@ import { getBasketTotal, postPurchase } from "../../../actions";
 import { Box, Button, Divider } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { actionTypes } from "../../../reducer/index";
-import { useHistory } from "react-router-dom";
 
 export default function Review({ handleBack }) {
   const basket = useSelector((state) => state.basket);
   const dispatch = useDispatch();
-  const history = useHistory();
-
-  function handlePayment() {
-    let paymentLink = postPurchase(getBasketTotal());
-    dispatch({
-      type: actionTypes.EMPTY_BASKET,
-      payload: [],
-    });
-    history.push(paymentLink); // ver como hacer para que redirija al link de mp
+  async function handlePayment() {
+    let totalSent = await getBasketTotal(basket);
+    console.log(totalSent)
+    let paymentLink =  await postPurchase(getBasketTotal(basket));
+    // console.log(paymentLink.data);
+    // dispatch({
+    //   type: actionTypes.EMPTY_BASKET,
+    //   payload: [],
+    // });
+    window.location.assign(`${paymentLink.data}`);
   }
 
   return (

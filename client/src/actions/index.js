@@ -7,8 +7,7 @@ export function getBasketTotal(basket) {
 
 export async function postPurchase(purchaseTotal) {
     try {
-      let purchasePay = await axios.post("http://localhost:8080/checkout", { unit_price: purchaseTotal});
-      console.log(purchasePay);
+      let purchasePay = await axios.post("http://localhost:8080/checkout", purchaseTotal);
       return purchasePay;
     } catch (error) {
       alert(error.response.data);
