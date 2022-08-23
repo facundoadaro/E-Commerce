@@ -15,8 +15,8 @@ export default function Review({ handleBack }) {
   async function handlePayment() {
     let totalSent = await getBasketTotal(basket);
     console.log(totalSent)
-    let paymentLink =  await postPurchase(getBasketTotal(basket));
-    // console.log(paymentLink.data);
+    let paymentLink =  await postPurchase({ unit_price: getBasketTotal(basket) });
+    // COMO SE SALE DE LA PÁGINA ES PROBABLE QUE NO SEA NECESARIO, DADO QUE SE BORRA SOLO EL CARRITO
     // dispatch({
     //   type: actionTypes.EMPTY_BASKET,
     //   payload: [],
